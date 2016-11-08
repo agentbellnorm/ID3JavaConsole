@@ -1,0 +1,3 @@
+attribute,outcome
+v1,positive
+v2,positive
