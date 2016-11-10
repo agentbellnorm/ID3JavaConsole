@@ -8,22 +8,32 @@ import java.util.List;
  * Created by Morgan on 2016-11-06.
  */
 public class Node {
-    private String Attribute;
+    private String attribute;
     private BigDecimal gain;
     private String label;
     private String value;
     private List<Node> children;
 
-    public Node () {
+    public Node(GainTuple gainTuple, String label, String value) {
         children = new ArrayList<>();
+        this.attribute = gainTuple.attribute;
+        this.gain = gainTuple.gain;
+        this.label = label;
+        this.value = value;
+    }
+
+    public Node (String label, String value) {
+        children = new ArrayList<>();
+        this.label = label;
+        this.value = value;
     }
 
     public String getAttribute() {
-        return Attribute;
+        return attribute;
     }
 
     public void setAttribute(String attribute) {
-        Attribute = attribute;
+        attribute = attribute;
     }
 
     public BigDecimal getGain() {

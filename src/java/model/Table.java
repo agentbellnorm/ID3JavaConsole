@@ -1,19 +1,23 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 /**
  * Created by Morgan on 2016-11-08.
  */
 public class Table extends ArrayList<Row>{
     private AttributeList attributes;
-    private final String SUCCESS_ATTRIBUTE;
-    private final String SUCCESS_VALUE;
+    private final String OUTCOME_ATTRIBUTE;
+    private final String POSITIVE_VALUE;
+    private final String NEGATIVE_VALUE;
 
-    public Table(AttributeList attributes, String successAttribute, String successValue) {
+    public Table(AttributeList attributes, String outcomeAttribute, String positiveValue, String negativeValue) {
         this.attributes = attributes;
-        SUCCESS_ATTRIBUTE = successAttribute;
-        SUCCESS_VALUE = successValue;
+        OUTCOME_ATTRIBUTE = outcomeAttribute;
+        POSITIVE_VALUE = positiveValue;
+        NEGATIVE_VALUE = negativeValue;
     }
 
     public AttributeList getAttributes() {
@@ -21,8 +25,8 @@ public class Table extends ArrayList<Row>{
     }
 
     public boolean isPositive(Row row) {
-        String outcome = row.getValueByAttribute(SUCCESS_ATTRIBUTE);
-        return SUCCESS_VALUE.equals(outcome);
+        String outcome = row.getValueByAttribute(OUTCOME_ATTRIBUTE);
+        return POSITIVE_VALUE.equals(outcome);
     }
 
     public boolean allPositive() {
@@ -41,5 +45,23 @@ public class Table extends ArrayList<Row>{
             }
         }
         return true;
+    }
+
+    public String mostPositiveOrNegative() {
+        int positive = (int) this.stream().filter(row -> isPositive(row)).count();
+        int negative = this.size() - positive;
+
+        if (positive > negative) {
+            return POSITIVE_VALUE;
+        }
+        else if (negative > positive) {
+            return NEGATIVE_VALUE;
+        } else {
+            return POSITIVE_VALUE+" and "+NEGATIVE_VALUE+" are equaly likely";
+        }
+    }
+
+    public Table subTable(AttributeList attributesToKeep, Predicate<Row> predicate) {
+        return this;
     }
 }

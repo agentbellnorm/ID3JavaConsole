@@ -12,4 +12,6 @@ public class AttributeList extends ArrayList<String> {
                 .filter(currentAttribute -> !attributesToRemove.contains(currentAttribute))
                 .collect(Collectors.toCollection(AttributeList::new));
     }
+
+    //TODO: maybe not necessary?
 }

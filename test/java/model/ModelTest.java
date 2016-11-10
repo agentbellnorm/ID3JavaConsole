@@ -10,11 +10,12 @@ public class ModelTest {
 
     String dataPath = "model/test/all_positive.txt";
     String successAttribute = "outcome";
-    String successValue = "positive";
+    String positiveValue = "positive";
+    String negativeValue = "negative";
 
    @Test
     public void modelCreated() {
-       Model model = new Model(dataPath, successAttribute, successValue);
+       Model model = new Model(dataPath, successAttribute, positiveValue, negativeValue);
        Assert.assertNotNull(model);
    }
 

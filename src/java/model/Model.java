@@ -11,17 +11,27 @@ import java.util.stream.Stream;
  * Created by Morgan on 2016-11-06.
  */
 public class Model {
-    private final String SUCCESS_KEY;
-    private final String SUCCESS_VALUE;
+    private final String OUTCOME_KEY;
+    private final String POSITIVE_VALUE;
+    private final String NEGATIVE_VALUE;
     private final String DELIMETER = ",";
     private final String FILE_PATH;
 
-    public Model(String path, String successKey, String successValue) {
+    public Model(String path, String outcomeKey, String positiveValue, String negativeValue) {
         ClassLoader classLoader = getClass().getClassLoader();
 
         FILE_PATH = classLoader.getResource(path).getPath();
-        SUCCESS_KEY = successKey;
-        SUCCESS_VALUE = successValue;
+        OUTCOME_KEY = outcomeKey;
+        POSITIVE_VALUE = positiveValue;
+        NEGATIVE_VALUE = negativeValue;
+    }
+
+    public String getPositive() {
+        return POSITIVE_VALUE;
+    }
+
+    public String getNegative() {
+        return NEGATIVE_VALUE;
     }
 
     public Table getTable() {
@@ -35,7 +45,7 @@ public class Model {
 
         attributes.addAll(Arrays.asList(rowStream.findFirst().get().split(DELIMETER)));
 
-        Table table = new Table(attributes, SUCCESS_KEY, SUCCESS_VALUE);
+        Table table = new Table(attributes, OUTCOME_KEY, POSITIVE_VALUE, NEGATIVE_VALUE);
 
         table.addAll(readFile().skip(FIRST_LINE).map(row -> createNewRow(row, attributes)).collect(Collectors.toList()));
 
