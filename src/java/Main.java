@@ -1,5 +1,5 @@
-import algorithm.ID3Performer;
-import algorithm.ID3Result;
+import algorithm.Id3Performer;
+import algorithm.Id3Result;
 import model.Model;
 
 public class Main {
@@ -11,8 +11,8 @@ public class Main {
         String negativeOutcome = "No";
 
         Model golfModel = new Model(dataPath, successAttribute, positiveOutcome, negativeOutcome);
-        ID3Performer id3Performer = new ID3Performer(golfModel);
-        ID3Result id3Result = id3Performer.perform();
+        Id3Performer id3Performer = new Id3Performer(golfModel);
+        Id3Result id3Result = id3Performer.perform();
         System.out.println(id3Result.printResult());
 
 

@@ -3,10 +3,10 @@ package algorithm;
 /**
  * Created by Morgan on 2016-11-06.
  */
-public class ID3Result {
+public class Id3Result {
     private Node resultRoot;
 
-    public ID3Result(Node root) {
+    public Id3Result(Node root) {
         resultRoot = root;
     }
 

@@ -3,6 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * Created by Morgan on 2016-11-08.
@@ -61,7 +62,9 @@ public class Table extends ArrayList<Row>{
         }
     }
 
-    public Table subTable(AttributeList attributesToKeep, Predicate<Row> predicate) {
-        return this;
+    public Table filteredSubTable(Predicate<Row> predicate) {
+        Table newTable = new Table(this.attributes, OUTCOME_ATTRIBUTE, POSITIVE_VALUE, NEGATIVE_VALUE);
+        newTable.addAll(this.stream().filter(predicate).collect(Collectors.toList()));
+        return newTable;
     }
 }
