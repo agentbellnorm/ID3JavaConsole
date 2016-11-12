@@ -9,8 +9,13 @@ public class GainTuple implements Comparable<GainTuple>{
     public String attribute;
     public BigDecimal gain;
 
+    public GainTuple(String attribute, BigDecimal gain) {
+        this.attribute = attribute;
+        this.gain = gain;
+    }
+
     public int compareTo(GainTuple otherTuple) {
-        return this.gain.compareTo(otherTuple.gain);
+        return -1 * this.gain.compareTo(otherTuple.gain);
     }
 
 }

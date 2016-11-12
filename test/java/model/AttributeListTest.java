@@ -1,6 +1,7 @@
 package model;
 
 import org.junit.*;
+import org.w3c.dom.Attr;
 
 /**
  * Created by Morgan on 2016-11-08.
@@ -19,10 +20,11 @@ public class AttributeListTest {
     }
 
     @Test
-    public void subtract() throws Exception {
-        AttributeList toRemove = new AttributeList();
-        toRemove.add(ATTRIBUTE_2);
-        Assert.assertFalse(attributes.subtract(toRemove).contains(ATTRIBUTE_2));
+    public void subtract() {
+        AttributeList subtracted = attributes.subListWithout(ATTRIBUTE_2);
+
+        Assert.assertFalse(subtracted.contains(ATTRIBUTE_2));
+        Assert.assertTrue(subtracted.size() == 1);
         Assert.assertTrue(attributes.contains(ATTRIBUTE_1) && attributes.contains(ATTRIBUTE_2));
     }
 }

@@ -1,4 +1,4 @@
-attribute,outcome
-v1,positive
-v2,positive
-v3,negative
+id,a1,outcome
+1,aaa,positive
+2,bbb,positive
+3,bbb,negative

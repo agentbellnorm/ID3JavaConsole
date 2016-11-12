@@ -42,14 +42,14 @@ public class Id3Performer {
 
         Node root = new Node(attributeWithMaxGain, branchLabel);
 
-        for (String value : possibleValues(table, attributeWithMaxGain.attribute)) {
-            Table filteredTable = table.filteredSubTable(row -> value.equals(row.getValueByAttribute(attributeWithMaxGain.attribute)));
+        for (String value : table.possibleValues(attributeWithMaxGain.attribute)) {
+            Table filteredTable = table.filteredSubTable(attributeWithMaxGain.attribute, value);
 
             if (filteredTable.isEmpty()) {
-                root.getChildren().add(new Node(table.mostPositiveOrNegative(), value));
+                root.addChild(new Node(table.mostPositiveOrNegative(), value));
             }
             else {
-                root.getChildren().add(id3(filteredTable, attributes.subListWithout(root.getAttribute()), value));
+                root.addChild(id3(filteredTable, attributes.subListWithout(root.getAttribute()), value));
             }
         }
         return root;
@@ -57,13 +57,9 @@ public class Id3Performer {
 
     private GainTuple maxGainAttribute(Table table, AttributeList attributes) {
         return attributes.stream()
-                .map(attribute -> gain(table, attribute))
+                .map(attribute -> Id3Calculations.gainByAttribute(table, attribute))
                 .sorted()
                 .findFirst()
                 .get();
-    }
-
-    private List<String> possibleValues(Table table, String attr){
-        return table.stream().map(row -> row.getValueByAttribute(attr)).distinct().collect(Collectors.toList());
     }
 }

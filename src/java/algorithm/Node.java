@@ -37,6 +37,10 @@ public class Node {
         this.value = value;
     }
 
+    public void addChild(Node child) {
+        children.add(child);
+    }
+
     public String getAttribute() {
         return attribute;
     }

@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 public class AttributeList extends ArrayList<String> {
     public AttributeList subListWithout(String attributeToRemove) {
         return this.stream()
-                .filter(currentAttribute -> !this.contains(attributeToRemove))
+                .filter(currentAttribute -> !currentAttribute.equals(attributeToRemove))
                 .collect(Collectors.toCollection(AttributeList::new));
     }
 

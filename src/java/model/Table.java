@@ -1,6 +1,8 @@
 package model;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -62,9 +64,17 @@ public class Table extends ArrayList<Row>{
         }
     }
 
-    public Table filteredSubTable(Predicate<Row> predicate) {
+    public Table filteredSubTable(String attribute, String value) {
         Table newTable = new Table(this.attributes, OUTCOME_ATTRIBUTE, POSITIVE_VALUE, NEGATIVE_VALUE);
-        newTable.addAll(this.stream().filter(predicate).collect(Collectors.toList()));
+        newTable.addAll(this.stream().filter(row -> value.equals(row.getValueByAttribute(attribute))).collect(Collectors.toList()));
         return newTable;
+    }
+
+    public List<String> possibleValues(String attr){
+        return this.stream().map(row -> row.getValueByAttribute(attr)).distinct().collect(Collectors.toList());
+    }
+
+    public BigDecimal weightOfClassOfAttribute(String className, String attribute) {
+        return new BigDecimal(this.stream().filter(row -> className.equals(row.getValueByAttribute(attribute))).count()).divide(new BigDecimal(this.size()), 5, BigDecimal.ROUND_HALF_UP);
     }
 }
