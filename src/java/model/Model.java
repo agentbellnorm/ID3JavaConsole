@@ -1,6 +1,7 @@
 package model;
 
-import org.w3c.dom.Attr;
+
+import config.Config;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -13,59 +14,57 @@ import java.util.stream.Stream;
  * Created by Morgan on 2016-11-06.
  */
 public class Model {
-    private final Map<String, String> config;
-    private final String OUTCOME_ATTRIBUTE_KEY = "outcome";
-    private final String POSITIVE_OUTCOME_KEY = "positiveoutcome";
-    private final String NEGATIVE_OUTCOME_KEY = "negativeoutcome";
-    private final String DELIMETER_KEY = "delimeter";
-    private final String FILE_PATH_KEY = "filepath";
-    private final String IDENTIFIER_KEY = "identifier";
+    private final Config config;
     private final String FILE_PATH;
 
-    public Model(Map<String, String> config) {
+    public Model(Config config) {
         this.config = config;
         ClassLoader classLoader = getClass().getClassLoader();
-        FILE_PATH = classLoader.getResource(config.get(FILE_PATH_KEY)).getPath();
+        FILE_PATH = classLoader.getResource(config.getDataFileName()).getPath();
     }
 
     public String getPositive() {
-        return config.get(POSITIVE_OUTCOME_KEY);
+        return config.getPositiveOutcome();
     }
 
     public String getNegative() {
-        return config.get(NEGATIVE_OUTCOME_KEY);
+        return config.getNegativeOutcome();
     }
 
     public Table getTable() {
         return createNewTable();
     }
 
-    private Table createNewTable() {
+    private Table createNewTable() { //TODO: This method is nasty.
         final int FIRST_LINE = 1;
         Stream<String> rowStream = readFile();
         AttributeList allAttributes = new AttributeList();
         AttributeList attributesWithoutIdAndOutcome = new AttributeList();
-        allAttributes.addAll(Arrays.asList(rowStream.findFirst().get().split(config.get(DELIMETER_KEY))));
+        allAttributes.addAll(Arrays.asList(rowStream.findFirst().get().split(config.getDelimeter())));
 
         attributesWithoutIdAndOutcome = allAttributes
-                                            .subListWithout(config.get(IDENTIFIER_KEY))
-                                            .subListWithout(config.get(OUTCOME_ATTRIBUTE_KEY));
+                                            .subListWithout(config.getIdentifier())
+                                            .subListWithout(config.getOutcomeAttribute());
 
 
         Table table = new Table(attributesWithoutIdAndOutcome,
-                                config.get(OUTCOME_ATTRIBUTE_KEY),
-                                config.get(POSITIVE_OUTCOME_KEY),
-                                config.get(NEGATIVE_OUTCOME_KEY));
+                                config.getOutcomeAttribute(),
+                                config.getPositiveOutcome(),
+                                config.getNegativeOutcome());
 
-        table.addAll(readFile().skip(FIRST_LINE).map(row -> createNewRow(row, allAttributes)).collect(Collectors.toList()));
+        table.addAll(readFile()
+                .skip(FIRST_LINE)
+                .map(row -> createNewRow(row, allAttributes))
+                .collect(Collectors.toList()));
 
 
         return table;
     }
 
     private Row createNewRow(String row, List<String> attributes) {
-        List<String> rowValues = Arrays.asList(row.split(config.get(DELIMETER_KEY)));
+        List<String> rowValues = Arrays.asList(row.split(config.getDelimeter()));
         Map<String, String> rowMap = new HashMap<>();
+
         for(int i = 0; i < rowValues.size(); i++) {
             rowMap.put(attributes.get(i), rowValues.get(i));
         }

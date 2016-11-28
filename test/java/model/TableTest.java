@@ -1,52 +1,40 @@
 package model;
 
+import com.google.gson.Gson;
+import config.Config;
 import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Morgan on 2016-11-08.
  */
 public class TableTest {
 
-    private Map<String, String> config;
+    private Config config;
 
     private Model model;
     private Table table;
 
-    @Before
-    public void before() {
-        config = new HashMap<>();
-        config.put("outcome", "outcome");
-        config.put("positiveoutcome", "positive");
-        config.put("negativeoutcome", "negative");
-        config.put("identifier", "id");
-        config.put("delimeter", ",");
-    }
-
     @Test
     public void allPositive() {
-        setup("all_positive");
+        configure("all_positive");
 
         Assert.assertTrue(table.allPositive());
     }
 
     @Test
     public void allNegative() {
-        setup("all_negative");
+        configure("all_negative");
 
         Assert.assertTrue(table.allNegative());
     }
 
     @Test
     public void mixed() {
-        setup("mixed");
+        configure("mixed");
 
         Assert.assertFalse(table.allNegative());
         Assert.assertFalse(table.allPositive());
@@ -54,14 +42,14 @@ public class TableTest {
 
     @Test
     public void onePositive() {
-        setup("one_positive");
+        configure("one_positive");
 
         Assert.assertTrue(table.isPositive(table.get(0)));
     }
 
     @Test
     public void oneNegative() {
-        setup("one_negative");
+        configure("one_negative");
 
         Assert.assertFalse(table.isPositive(table.get(0)));
     }
@@ -72,66 +60,65 @@ public class TableTest {
 
     @Test
     public void mostPositive() {
-        setup("more_positive");
+        configure("more_positive");
 
-        Assert.assertEquals(config.get("positiveoutcome"), table.mostPositiveOrNegative());
+        Assert.assertEquals(config.getPositiveOutcome(), table.mostPositiveOrNegative());
     }
 
     @Test
     public void mostNegative() {
-        setup("more_negative");
+        configure("more_negative");
 
-        Assert.assertEquals(config.get("negativeoutcome"), table.mostPositiveOrNegative());
+        Assert.assertEquals(config.getNegativeOutcome(), table.mostPositiveOrNegative());
     }
 
     @Test
     public void sameNegativeAndPositive() {
-        setup("one_neg_one_pos");
+        configure("one_neg_one_pos");
 
         String output = table.mostPositiveOrNegative();
 
-        Assert.assertTrue(output.contains(config.get("positiveoutcome")) && output.contains(config.get("negativeoutcome")));
+        Assert.assertTrue(output.contains(config.getPositiveOutcome()) && output.contains(config.getNegativeOutcome()));
     }
 
     @Test
     public void weightIsOne() {
-        setup("weight_of_class_is_one");
-        BigDecimal ONE = new BigDecimal("1");
+        configure("weight_of_class_is_one");
 
-        Assert.assertEquals(ONE, table.weightOfClassOfAttribute("aaa", "a1"));
+        Assert.assertTrue(BigDecimal.ONE.compareTo(table.weightOfClassOfAttribute("aaa", "a1")) == 0);
     }
 
     @Test
     public void weightIsZero() {
-        setup("weight_of_class_is_zero");
+        configure("weight_of_class_is_zero");
         BigDecimal ZERO = new BigDecimal("0");
 
-        Assert.assertEquals(ZERO, table.weightOfClassOfAttribute("aaa", "a1"));
+        Assert.assertTrue(BigDecimal.ZERO.compareTo(table.weightOfClassOfAttribute("aaa", "a1")) == 0);
     }
 
     @Test
     public void weightIsHalf() {
-        setup("weight_of_class_is_point_five");
+        configure("weight_of_class_is_point_five");
         BigDecimal POINT_FIVE = new BigDecimal("0.5");
 
 
-        Assert.assertEquals(POINT_FIVE, table.weightOfClassOfAttribute("aaa", "a1"));
+        Assert.assertTrue(POINT_FIVE.compareTo(table.weightOfClassOfAttribute("aaa", "a1")) == 0);
     }
 
     @Test
     public void possibleValues() {
-        setup("mixed");
-        int DISTINCT_VALUES_IN_DATA = 2;
+        configure("mixed");
+        int NUMBER_OF_DISTINCT_VALUES_IN_DATA = 2;
 
         List<String> possibleValues = table.possibleValues("a1");
 
         Assert.assertTrue(possibleValues.contains("aaa") && possibleValues.contains("bbb"));
-        Assert.assertEquals(DISTINCT_VALUES_IN_DATA, possibleValues.size());
+        Assert.assertEquals(NUMBER_OF_DISTINCT_VALUES_IN_DATA, possibleValues.size());
     }
 
     @Test
     public void filteredSubTable() {
-        setup("mixed");
+        configure("mixed");
 
         Table filteredTableWithA = table.filteredSubTable("a1", "aaa");
         Table filteredTableWithB = table.filteredSubTable("a1", "bbb");
@@ -144,13 +131,19 @@ public class TableTest {
 
     }
 
-    private void setup(String dataFile) {
-        config.put("filepath", testData(dataFile));
+    private void configure(String dataFile) {
+        String configJson = "{\n" +
+                "  \"dataFileName\": \"model/test/"+dataFile+".txt\",\n" +
+                "  \"outcomeAttribute\": \"outcome\",\n" +
+                "  \"positiveOutcome\": \"positive\",\n" +
+                "  \"negativeOutcome\": \"negative\",\n" +
+                "  \"identifier\": \"id\",\n" +
+                "  \"delimeter\": \",\",\n" +
+                "  \"predictiveColumns\": [\"a1\"]\n" +
+                "}";
+
+        config = new Gson().fromJson(configJson, Config.class);
         model = new Model(config);
         table = model.getTable();
-    }
-
-    private String testData(String name) {
-        return "model/test/"+name+".txt";
     }
 }

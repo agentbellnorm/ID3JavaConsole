@@ -1,5 +1,7 @@
 package model;
 
+import com.google.gson.Gson;
+import config.Config;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,17 +14,11 @@ import java.util.Map;
  */
 public class ModelTest {
 
-    Map<String, String> config;
+    Config config;
 
     @Before
     public void before() {
-        config = new HashMap<>();
-        config.put("filepath", "model/test/all_positive.txt");
-        config.put("outcome", "Play");
-        config.put("positiveoutcome", "Yes");
-        config.put("negativeoutcome", "No");
-        config.put("identifier", "Day");
-        config.put("delimeter", ",");
+        setup("all_positive");
     }
 
    @Test
@@ -30,5 +26,18 @@ public class ModelTest {
        Model model = new Model(config);
        Assert.assertNotNull(model);
    }
+
+    private void setup(String dataFile) {
+        String configJson = "{\n" +
+                "  \"dataFileName\": \"model/test/"+dataFile+".txt\",\n" +
+                "  \"outcomeAttribute\": \"outcome\",\n" +
+                "  \"positiveOutcome\": \"positive\",\n" +
+                "  \"negativeOutcome\": \"negative\",\n" +
+                "  \"identifier\": \"id\",\n" +
+                "  \"delimeter\": \",\",\n" +
+                "  \"predictiveColumns\": [\"a1\"]\n" +
+                "}";
+        config = new Gson().fromJson(configJson, Config.class);
+    }
 
 }

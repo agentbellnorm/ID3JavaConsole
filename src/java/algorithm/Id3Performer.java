@@ -3,10 +3,6 @@ package algorithm;
 import model.AttributeList;
 import model.Model;
 import model.Table;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
-import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Created by Morgan on 2016-11-06.

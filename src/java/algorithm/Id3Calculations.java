@@ -1,12 +1,10 @@
 package algorithm;
 
-import com.sun.tools.internal.xjc.reader.xmlschema.bindinfo.BIDeclaration;
 import model.Row;
 import model.Table;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.math.BigDecimal;
-import java.util.List;
 import java.util.function.Predicate;
 
 /**
@@ -65,7 +63,7 @@ public abstract class Id3Calculations {
     private static BigDecimal e_vlad(BigDecimal probability)
     {
         // (prob * Math.Log(1 / prob, 10)) + ((1 - prob) * Math.Log(1 / (1 - prob), 10));
-
+        // View it as a tree from left to right.
         return
                 probability
             .multiply(
@@ -73,11 +71,11 @@ public abstract class Id3Calculations {
         .add(
                 BigDecimal.ONE.subtract(probability)
             .multiply(
-                log10(      BigDecimal.ONE
-                        .divide(
-                                BigDecimal.ONE
-                            .subtract(
-                                probability), 5, BigDecimal.ROUND_HALF_UP))));
+                log10(  BigDecimal.ONE
+                    .divide(
+                            BigDecimal.ONE
+                        .subtract(
+                            probability), 5, BigDecimal.ROUND_HALF_UP))));
     }
 
     private static BigDecimal log10(BigDecimal a) {

@@ -1,5 +1,6 @@
 package algorithm;
 
+import com.google.gson.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,35 +46,10 @@ public class Node {
         return attribute;
     }
 
-    public void setAttribute(String attribute) {
-        attribute = attribute;
+    public String getJson() {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        return gson.toJson(this);
     }
 
-    public BigDecimal getGain() {
-        return gain;
-    }
 
-    public void setGain(BigDecimal gain) {
-        this.gain = gain;
-    }
-
-    public String getLabel() {
-        return label;
-    }
-
-    public void setLabel(String label) {
-        this.label = label;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
-    }
-
-    public List<Node> getChildren() {
-        return children;
-    }
 }

@@ -3,8 +3,6 @@ package model;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
@@ -66,7 +64,9 @@ public class Table extends ArrayList<Row>{
 
     public Table filteredSubTable(String attribute, String value) {
         Table newTable = new Table(this.attributes, OUTCOME_ATTRIBUTE, POSITIVE_VALUE, NEGATIVE_VALUE);
-        newTable.addAll(this.stream().filter(row -> value.equals(row.getValueByAttribute(attribute))).collect(Collectors.toList()));
+        newTable.addAll(this.stream()
+                .filter(row -> value.equals(row.getValueByAttribute(attribute)))
+                .collect(Collectors.toList()));
         return newTable;
     }
 
