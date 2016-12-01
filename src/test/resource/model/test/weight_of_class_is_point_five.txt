@@ -1,0 +1,7 @@
+id,a1,outcome
+1,bbb,positive
+2,aaa,positive
+3,bbb,positive
+4,aaa,positive
+5,ccc,positive
+6,aaa,positive

@@ -1,0 +1,9 @@
+{
+  "dataFileName": "data.txt",
+  "outcomeAttribute": "outcome",
+  "positiveOutcome": "positive",
+  "negativeOutcome": "negative",
+  "identifier": "id",
+  "delimeter": ",",
+  "predictiveColumns": ["a1"]
+}
