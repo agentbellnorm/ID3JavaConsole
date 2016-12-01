@@ -1,3 +1,0 @@
-id,a1,outcome
-1,b,positive
-2,c,negative

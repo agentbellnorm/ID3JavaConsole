@@ -1,6 +1,0 @@
-id,a1,outcome
-1,aaa,positive
-2,aaa,positive
-3,aaa,positive
-4,aaa,positive
-5,aaa,positive

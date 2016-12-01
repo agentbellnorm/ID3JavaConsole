@@ -1,3 +1,0 @@
-id,attribute,outcome
-1,v1,positive
-2,v2,positive
