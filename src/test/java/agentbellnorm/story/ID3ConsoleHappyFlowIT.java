@@ -28,7 +28,7 @@ public class ID3ConsoleHappyFlowIT {
     @Given("A training dataset from $filename that creates a decision tree")
     public void given(@Named("filename") String filename){
 
-        Model golfModel = new Model(Config.load("golf"));
+        Model golfModel = new Model(Config.load(filename));
         Id3Trainer id3Trainer = new Id3Trainer(golfModel);
         id3Tree = id3Trainer.train();
 

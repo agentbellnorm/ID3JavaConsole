@@ -12,7 +12,11 @@ import java.util.List;
 
 /**
  * Created by Morgan on 2017-01-07.
+ *
+ * based on https://blog.codecentric.de/en/2012/06/jbehave-configuration-tutorial/
+ *
  */
+
 @RunWith(JUnitReportingRunner.class)
 public class BaseTestCaseIT extends JUnitStories {
 
