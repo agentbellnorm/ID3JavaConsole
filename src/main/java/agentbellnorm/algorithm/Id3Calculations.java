@@ -1,7 +1,7 @@
 package agentbellnorm.algorithm;
 
 import agentbellnorm.model.*;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+import org.apache.commons.lang.NotImplementedException;
 
 import java.math.BigDecimal;
 import java.util.function.Predicate;
@@ -11,6 +11,7 @@ import java.util.function.Predicate;
  */
 public abstract class Id3Calculations {
 
+    private Id3Calculations() {}
 
     public static GainTuple gainByAttribute(Table table, String attribute) {
         Predicate<Row> noFilter = (row -> true);
@@ -48,18 +49,14 @@ public abstract class Id3Calculations {
     private static BigDecimal entropy(Table table, Predicate<Row> filterPredicate) {
         BigDecimal probability = probability(table, filterPredicate);
 
-        if (BigDecimal.ZERO.compareTo(probability) == 0) {
+        if (BigDecimal.ZERO.compareTo(probability) == 0 || BigDecimal.ONE.compareTo(probability) == 0) {
             return BigDecimal.ZERO;
-        }
-        else if (BigDecimal.ONE.compareTo(probability) == 0) {
-            return BigDecimal.ZERO;
-        }
-        else {
-            return e_vlad(probability);
+        } else {
+            return eVlad(probability);
         }
     }
 
-    private static BigDecimal e_vlad(BigDecimal probability)
+    private static BigDecimal eVlad(BigDecimal probability)
     {
         // (prob * Math.Log(1 / prob, 10)) + ((1 - prob) * Math.Log(1 / (1 - prob), 10));
         // View it as a tree from left to right.
@@ -81,7 +78,7 @@ public abstract class Id3Calculations {
         return BigDecimal.valueOf(Math.log10(a.doubleValue()));
     }
 
-    private static BigDecimal e_internet(BigDecimal prob)
+    private static BigDecimal eInternet(BigDecimal prob)
     {
         // return -(prob * Math.Log(prob, 2)) - ((1 - prob) * Math.Log((1 - prob), 2));
         throw new NotImplementedException();

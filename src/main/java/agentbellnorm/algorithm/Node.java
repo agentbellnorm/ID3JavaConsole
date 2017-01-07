@@ -15,8 +15,6 @@ public class Node {
     private String value;
     private List<Node> children;
 
-    public Node() {}
-
     public Node(GainTuple gainTuple, String label, String value) {
         children = new ArrayList<>();
         this.attribute = gainTuple.attribute;

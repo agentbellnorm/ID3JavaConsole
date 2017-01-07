@@ -39,7 +39,7 @@ public class Model {
         final int FIRST_LINE = 1;
         Stream<String> rowStream = readFile();
         AttributeList allAttributes = new AttributeList();
-        AttributeList attributesWithoutIdAndOutcome = new AttributeList();
+        AttributeList attributesWithoutIdAndOutcome;
         allAttributes.addAll(Arrays.asList(rowStream.findFirst().get().split(config.getDelimeter())));
 
         attributesWithoutIdAndOutcome = allAttributes
@@ -76,7 +76,7 @@ public class Model {
             return Files.lines(Paths.get(FILE_PATH));
         }
         catch (IOException e) {
-            throw new RuntimeException("Could not read data from file");
+            throw new RuntimeException("Could not read file");
         }
     }
 }
