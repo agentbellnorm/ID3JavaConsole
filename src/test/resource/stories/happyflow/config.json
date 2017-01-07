@@ -1,0 +1,9 @@
+{
+  "dataFileName": "model/golf/data.txt",
+  "outcomeAttribute": "Play",
+  "positiveOutcome": "Yes",
+  "negativeOutcome": "No",
+  "identifier": "Day",
+  "delimeter": ",",
+  "predictiveColumns": [""]
+}

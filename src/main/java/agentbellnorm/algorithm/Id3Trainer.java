@@ -5,17 +5,17 @@ import agentbellnorm.model.*;
 /**
  * Created by Morgan on 2016-11-06.
  */
-public class Id3Performer {
+public class Id3Trainer {
 
     private Model model;
 
-    public Id3Performer(Model model) {
+    public Id3Trainer(Model model) {
         this.model = model;
     }
 
-    public Id3Result perform(){
+    public Id3Tree train(){
         Table table = model.getTable();
-        return new Id3Result(id3(table, table.getAttributes(), "root"));
+        return new Id3Tree(id3(table, table.getAttributes(), "root"));
     }
 
     private Node id3(Table table, AttributeList attributes, String branchLabel) {

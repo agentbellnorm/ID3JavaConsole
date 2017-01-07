@@ -40,8 +40,25 @@ public class Node {
         children.add(child);
     }
 
+    public boolean isLeaf() {
+        return this.children.isEmpty();
+    }
+
     public String getAttribute() {
         return attribute;
+    }
+
+
+    public String getValue() {
+        return value;
+    }
+
+    public String getLabel() {
+        return this.label;
+    }
+
+    public List<Node> getChildren() {
+        return this.children;
     }
 
     public String getJson() {
